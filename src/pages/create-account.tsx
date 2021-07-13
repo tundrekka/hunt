@@ -1,25 +1,38 @@
-import { Formulario, Campo, InputSubmit, Error } from 'components/ui/Formulario.styles'
+import { useState } from 'react'
+
+import {
+   Formulario,
+   Campo,
+   InputSubmit,
+   Error,
+} from 'components/ui/Formulario.styles'
+import { crearCuenta } from 'helpers/createAccount'
 import { validateCreateAccount } from 'helpers/validationCreateAcc'
 import { useValidacion } from 'hooks/useValidacion'
 import type { CreateAccInitialState } from 'types/types'
 
 const initialFormState: CreateAccInitialState = {
-   nombre: '',
-   email: '',
-   password: '',
+   nombre: 'ismael',
+   email: 'test-user@gmail.com',
+   password: '1234567',
 }
+
 export default function CreateAccount() {
-   const crearCuenta = () => {
-      console.log('creando cuenta');
-   }
-   const {formValues, errors, handleSubmit, handleInputChange, handleBlur} = useValidacion(initialFormState, validateCreateAccount, crearCuenta)
+
+   const [errorFirebase, setErrorFirebase] = useState<string | null>(null)
+
+   const { formValues, errors, handleSubmit, handleInputChange, handleBlur } =
+      useValidacion(initialFormState, validateCreateAccount, () => {
+         crearCuenta(nombre, email, password, setErrorFirebase)
+      })
+      
    const { nombre, email, password } = formValues
+
    return (
       <div>
          <>
             <h2 style={{ textAlign: 'center' }}>Crear Cuenta</h2>
-            <Formulario onSubmit={handleSubmit} >
-
+            <Formulario onSubmit={handleSubmit}>
                {errors.nombre && <Error>{errors.nombre}</Error>}
                <Campo>
                   <label htmlFor="nombre">Nombre</label>
@@ -61,6 +74,7 @@ export default function CreateAccount() {
                      placeholder="tu password"
                   />
                </Campo>
+               {errorFirebase && <Error>{errorFirebase}</Error>}
                <InputSubmit type="submit" value="Crear Cuenta" />
             </Formulario>
          </>

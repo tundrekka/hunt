@@ -10,10 +10,10 @@ type IUseValidacionReturnValues<T, Y> = {
    handleBlur: () => void
 }
 
-export const useValidacion = <T, Y>(
+export const useValidacion = <T, Y, X>(
    initialFormState: T,
    validar: (arg: T) => Y,
-   callback: () => any
+   callback: () => X
 ): IUseValidacionReturnValues<T, Y> => {
    
    const [formValues, setFormValues] = useState(initialFormState)
@@ -21,7 +21,6 @@ export const useValidacion = <T, Y>(
    const [submitForm, setSubmitForm] = useState(false)
 
    useEffect(() => {
-      console.log('ejecutao el efecto');
       if (submitForm) {
          const noErrors = Object.keys(errors).length === 0
          if (noErrors) {

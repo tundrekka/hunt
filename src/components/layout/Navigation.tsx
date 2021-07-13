@@ -1,4 +1,6 @@
+import { FirebaseContext } from 'firebase/index';
 import Link from 'next/link';
+import { useContext } from 'react';
 import styled from 'styled-components';
 
 const Nav = styled.nav`
@@ -13,12 +15,21 @@ const Nav = styled.nav`
       }
    }
 `
+FirebaseContext
 export const Navigation: React.FC = () => {
+
+   const { user } = useContext(FirebaseContext)
+
    return (
       <Nav>
          <Link href="/" >Inicio</Link>
          <Link href="/create-account" >Populares</Link>
-         <Link href="/" >Nuevo Producto</Link>
+         
+         {
+            user && (
+               <Link href="/" >Nuevo Producto</Link>
+            )
+         }
       </Nav>
    )
 }

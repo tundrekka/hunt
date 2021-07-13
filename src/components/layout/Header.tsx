@@ -1,10 +1,12 @@
+import { useContext } from 'react'
 import styled from 'styled-components'
-
 import Link from 'next/link'
+
 
 import { Navigation } from './Navigation'
 import { Button } from 'components/ui/Button'
 import { Searcher } from 'components/ui/Searcher'
+import { FirebaseContext } from 'firebase/index'
 
 const HeaderContainer = styled.div`
    max-width: 1200px;
@@ -22,11 +24,8 @@ const Logo = styled.a`
    font-weight: 700;
    margin-right: 2rem;
 `
-
 export const Header: React.FC = () => {
-
-   const user = false;
-
+   const {user, firebaseDB} = useContext(FirebaseContext);
    return (
       <header
          style={{
@@ -48,7 +47,6 @@ export const Header: React.FC = () => {
                </Link>
 
                <Searcher />
-
                <Navigation />
             </div>
 
@@ -59,14 +57,18 @@ export const Header: React.FC = () => {
                   alignItems: 'center'
                }}
             >
-               {/* menu administracion */}
 
+               {/* menu administracion */}
                {
                   user
                   ? (
                      <>
-                        <p>Hola: ismael</p>
-                        <Button>cerrar sesion</Button>
+                        <p>Hola: {user.displayName}</p>
+                        <Button
+                           onClick={() => {
+                              firebaseDB.loggout()
+                           }}
+                        >cerrar sesion</Button>
                      </>
                   )
                   : (
@@ -81,9 +83,6 @@ export const Header: React.FC = () => {
                      </>
                   )
                }
-               
-
-              
 
             </div>
          </HeaderContainer>

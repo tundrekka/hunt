@@ -7,3 +7,10 @@ export interface CreateAccErrors {
    email?: string
    password?: string
 }
+
+// login form
+export type LoginInitialState = { email: string, password: string }
+export interface LoginErrors {
+   email?: string
+   password?: string
+}
