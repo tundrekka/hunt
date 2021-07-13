@@ -36,3 +36,13 @@ export const InputSubmit = styled.input`
    font-family: sans-serif, 'Geneva', 'Lucida Sans Regular', 'Lucida Grande',
       'Lucida Sans Unicode', Verdana, sans-serif;
 `
+
+export const Error = styled.p`
+   background-color: #ca1515f9;
+   padding: 1rem;
+   font-weight: 700;
+   font-size: 1.4rem;
+   text-align: center;
+   text-transform: uppercase;
+   margin: 1rem 0;
+`

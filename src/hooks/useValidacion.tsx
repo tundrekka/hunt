@@ -7,6 +7,7 @@ type IUseValidacionReturnValues<T, Y> = {
    submitForm: boolean
    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
    handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+   handleBlur: () => void
 }
 
 export const useValidacion = <T, Y>(
@@ -20,6 +21,7 @@ export const useValidacion = <T, Y>(
    const [submitForm, setSubmitForm] = useState(false)
 
    useEffect(() => {
+      console.log('ejecutao el efecto');
       if (submitForm) {
          const noErrors = Object.keys(errors).length === 0
          if (noErrors) {
@@ -37,11 +39,18 @@ export const useValidacion = <T, Y>(
       })
    }
 
+
+
    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       const erroresValidacion = validar(formValues)
       setErrors(erroresValidacion)
       setSubmitForm(true)
+   }
+   
+   const handleBlur = () => {
+      const erroresValidacion = validar(formValues)
+      setErrors(erroresValidacion)
    }
 
    return {
@@ -50,5 +59,6 @@ export const useValidacion = <T, Y>(
       submitForm,
       handleSubmit,
       handleInputChange,
+      handleBlur
    }
 }
