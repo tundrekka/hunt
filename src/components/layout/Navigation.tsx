@@ -27,7 +27,7 @@ export const Navigation: React.FC = () => {
          
          {
             user && (
-               <Link href="/" >Nuevo Producto</Link>
+               <Link href="/nuevo-producto" >Nuevo Producto</Link>
             )
          }
       </Nav>

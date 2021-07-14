@@ -6,7 +6,7 @@ type IUseValidacionReturnValues<T, Y> = {
    errors: Y
    submitForm: boolean
    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void
-   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
    handleBlur: () => void
 }
 
@@ -31,14 +31,12 @@ export const useValidacion = <T, Y, X>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [submitForm])
 
-   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setFormValues({
          ...formValues,
          [e.target.name]: e.target.value,
       })
    }
-
-
 
    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()

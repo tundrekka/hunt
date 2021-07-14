@@ -4,6 +4,14 @@ export const Formulario = styled.form`
    max-width: 600px;
    width: 95%;
    margin: 0 auto;
+
+   fieldset {
+      margin: 1.5rem 0;
+      border: 1px solid #c0c0c0;
+      font-size: 2rem;
+      padding: 1.5rem;
+   }
+
 `
 
 export const Campo = styled.div`
@@ -16,10 +24,13 @@ export const Campo = styled.div`
       flex: 0 0 90px;
       font-size: 1.8rem;
    }
-   input {
+   input, textarea {
       flex: 1;
       font-size: 1.7rem;
       padding: 0.25em;
+   }
+   textarea {
+      height: 200px;
    }
 `
 

@@ -14,3 +14,25 @@ export interface LoginErrors {
    email?: string
    password?: string
 }
+
+// create product form
+export type NewProductForm = {
+   nombre: string,
+   empresa: string,
+   imagen: string,
+   url: string,
+   descripcion: string
+}
+export interface NewProductErrors {
+   nombre?: string,
+   empresa?: string,
+   imagen?: string,
+   url?: string,
+   descripcion?: string
+}
+
+export type Product = NewProductForm & {
+   votos: number,
+   comentarios: Array<any>,
+   creado: string | number
+}
