@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 
 import {
    Formulario,
@@ -11,6 +11,8 @@ import { validateLogin } from 'helpers/validationLogin'
 import { useValidacion } from 'hooks/useValidacion'
 import type { LoginInitialState } from 'types/types'
 import { startLogin } from 'helpers/startLogin'
+import { FirebaseContext } from 'firebase/index'
+import router from 'next/router'
 
 const initialFormState: LoginInitialState = {
    email: 'test-user@gmail.com',
@@ -28,6 +30,11 @@ export default function Login() {
       
    const { email, password } = formValues
 
+   const { user } = useContext(FirebaseContext)
+
+   if(user) {
+      router.replace('/')
+   }
 
    return (
       <div>

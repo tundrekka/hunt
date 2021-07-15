@@ -31,8 +31,28 @@ export interface NewProductErrors {
    descripcion?: string
 }
 
+
+// 
+type Comentario = {
+   mensaje: string,
+   userId: string | null | undefined,
+   userNombre: string | null | undefined
+}
+
+
 export type Product = NewProductForm & {
    votos: number,
-   comentarios: Array<any>,
+   comentarios: Array<Comentario>,
    creado: string | number
+   creador: {
+      id: string,
+      nombre: string | null
+   },
+   haVotado: string[]
+
 }
+
+// final Product
+export type ProductWithId = Product & {id: string}
+
+export type IOrderBy = | 'votos' | 'creado'

@@ -23,7 +23,7 @@ export const Navigation: React.FC = () => {
    return (
       <Nav>
          <Link href="/" >Inicio</Link>
-         <Link href="/create-account" >Populares</Link>
+         <Link href="/populares" >Populares</Link>
          
          {
             user && (

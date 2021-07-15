@@ -13,6 +13,7 @@ import { useValidacion } from 'hooks/useValidacion'
 import { validateNewProduct } from 'helpers/validationNewProduct'
 import { FirebaseContext } from 'firebase/index'
 import { useRouter } from 'next/router'
+import { Error404 } from 'components/layout/404'
 
 const initialFormState: NewProductForm = {
    nombre: '',
@@ -56,7 +57,12 @@ export default function CreateAccount() {
          descripcion,
          votos: 0,
          comentarios: [],
-         creado: Date.now()
+         creado: Date.now(),
+         creador: {
+            id: user.uid,
+            nombre: user.displayName
+         },
+         haVotado: []
       }
       try {
          await firebaseDB.db.collection('productos').add(producto)
@@ -93,6 +99,8 @@ export default function CreateAccount() {
             setImageUrl(url)
          })
    }
+
+   if( !user ) return <Error404 /> 
 
    return (
       <div>

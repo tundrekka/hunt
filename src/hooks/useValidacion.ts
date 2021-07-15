@@ -28,6 +28,8 @@ export const useValidacion = <T, Y, X>(
          }
          setSubmitForm(false)
       }
+
+      return () => {}
       // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [submitForm])
 

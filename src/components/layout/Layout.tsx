@@ -1,5 +1,5 @@
 import type { FC } from 'react'
-import { createGlobalStyle } from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './Header'
 
 const GlobalStyles = createGlobalStyle`
@@ -33,6 +33,16 @@ const GlobalStyles = createGlobalStyle`
       padding: 0;
    }
 
+   img {
+      max-width: 100%;
+   }
+
+`
+const Container = styled.div`
+   max-width: 1200px;
+   width: 95%;
+   padding: 5rem 0;
+   margin: 0 auto;
 `
 
 export const Layout: FC = ({children}) => {
@@ -43,7 +53,9 @@ export const Layout: FC = ({children}) => {
          <Header />
          
          <main>
-            {children}
+            <Container>
+               {children}
+            </Container>
          </main>
       </>
    )
