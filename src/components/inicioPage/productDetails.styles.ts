@@ -6,7 +6,7 @@ export const Producto = styled.li`
    min-height: 155px;
    justify-content: space-between;
    align-items: center;
-   border-bottom: 1px solid whitesmoke;
+   border-bottom: 1px solid #a5a5a5d5;
    /* margin-bottom: 10px; */
 `
 
@@ -14,7 +14,7 @@ export const DescripcionProducto = styled.div`
    display: flex;
    align-items: center;
    & > div.img {
-
+      border-radius: 5px;
       width: 90px;
       @media (min-width: 768px) {
          width: 150px;
@@ -27,6 +27,8 @@ export const DescripcionProducto = styled.div`
 `
 
 export const Imagen = styled.img`
+   border-radius: 3.5px;
+   box-shadow: -1.5px 1.5px 3px rgba(0,0,0,.9);
    width: 90px;
    height: 90px;
    object-fit: cover;

@@ -1,3 +1,4 @@
+import { LazyLoad } from 'components/LazyLoad'
 import moment from 'moment'
 import Link from 'next/link'
 import { ProductWithId } from 'types/types'
@@ -23,7 +24,9 @@ export const ProductDetails: React.FC<Props> = ({ product }) => {
       <Producto>
          <DescripcionProducto>
             <div className="img">
-               <Imagen src={imagen} alt="imagen" />
+               <LazyLoad>
+                  <Imagen src={imagen} alt="imagen" />
+               </LazyLoad>
             </div>
             <div>
                <Link passHref href="/productos/[id]" as={`/productos/${id}`}>

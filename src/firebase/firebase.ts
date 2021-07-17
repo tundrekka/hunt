@@ -36,6 +36,11 @@ class Firebase {
    async loggout() {
       await this.auth.signOut()
    }
+
+   // restablecer contrasenia
+   async startNewPassword(email: string) {
+      return await this.auth.sendPasswordResetEmail(email)
+   }
 }
 
 export const firebaseDB = new Firebase()

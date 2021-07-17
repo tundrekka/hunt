@@ -4,6 +4,7 @@ export const Formulario = styled.form`
    max-width: 600px;
    width: 95%;
    margin: 0 auto;
+   position: relative;
 
    fieldset {
       margin: 1.5rem 0;
@@ -46,13 +47,14 @@ export const Campo = styled.div`
 `
 
 export const InputSubmit = styled.input`
-   background-color: orangered;
+   background-color: limegreen;
    width: 100%;
-   padding: 1.5rem;
+   padding: 1.1rem;
    text-align: center;
    color: #fff;
-   font-size: 1.8rem;
+   font-size: 1.6rem;
    text-transform: uppercase;
+   font-weight: bold;
    border: none;
    cursor: pointer;
    font-family: sans-serif, 'Geneva', 'Lucida Sans Regular', 'Lucida Grande',

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { ProductDetails } from 'components/inicioPage/ProductDetails'
 import { useProducts } from 'hooks/useProducts'
 import { Producto } from 'components/inicioPage/productDetails.styles'
+import { PaginationData } from 'components/utils/Pagination'
 
 const ProductsList = styled.div`
    padding: .5em;
@@ -16,8 +17,6 @@ const ProductsList = styled.div`
 export default function Home() {
 
    const products = useProducts('creado')
-
-   console.log(products)
 
    return (
       <>
@@ -36,6 +35,7 @@ export default function Home() {
                   )
                }
             </ul>
+            <PaginationData />
          </ProductsList>
       </>
    )

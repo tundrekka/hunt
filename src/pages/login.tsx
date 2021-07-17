@@ -78,6 +78,11 @@ export default function Login() {
                <a style={{color: 'orangered', fontWeight: 'bold'}}>{' '}Crea una cuenta!</a>
             </Link>
          </p>
+         <p style={{textAlign: 'center'}}>Olvidaste tu contraseña?
+            <Link href="/restablecer-contrasenia" passHref>
+               <a style={{color: 'orangered', fontWeight: 'bold'}}>{' '}Restablecer contraseña</a>
+            </Link>
+         </p>
       </div>
    )
 }

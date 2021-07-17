@@ -70,6 +70,7 @@ export default function CreateAccount() {
          const resp = await firebaseDB.db.collection('productos').add(producto)
          console.log(resp)
          console.log('creado con exito el producto');
+         return router.push('/')
       } catch (error) {
          console.warn(error.message)
       }
