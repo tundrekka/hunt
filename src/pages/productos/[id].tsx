@@ -1,70 +1,29 @@
+import moment from 'moment'
+import { useState } from 'react'
 import { Error404 } from 'components/layout/404'
 import { Button } from 'components/ui/Button'
 import { Campo, InputSubmit } from 'components/ui/Formulario.styles'
+import { Aside } from 'components/[id]/Aside'
+import { votar } from 'helpers/votarPorProducto'
 import { useGetProduct } from 'hooks/useGetProduct'
-import moment from 'moment'
-import { useState } from 'react'
-import styled from 'styled-components'
+import { Comentarios, CreadorProducto, Image, ProductContainer } from 'components/[id]/[id].styles'
 
-// styled Components
-const ProductContainer = styled.div`
-   @media (min-width: 768px) {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      column-gap: 1.5rem;
-   }
-`
-const Image = styled.img`
-   background: #888;
-`
-
-const CreadorProducto = styled.p`
-   padding: .5rem 2rem;
-   background-color: #DA552F;
-   color: #fff;
-   text-transform: uppercase;
-   font-weight: bold;
-   display: inline-block;
-   text-align: center;
-`
-const Comentarios = styled.ul`
-   background: #414141;
-   li {
-      border: 1px solid black;
-   }
-`
-
-// interface
 interface IComentarios {
    mensaje: string,
    userId: string | undefined | null
    userNombre: string | undefined | null
-
 }
 
 // Functional Component
 const ProductPage: React.FC = () => {
    const {
-      producto,
-      error,
-      user,
-      router,
-      firebaseDB,
-      setProducto,
-      setDbChanged,
+      producto, error, user, router, firebaseDB,
+      setProducto, setDbChanged
    } = useGetProduct()
 
    const {
-      haVotado,
-      creado,
-      imagen,
-      descripcion,
-      comentarios,
-      url,
-      votos,
-      creador,
-      empresa,
-      id,
+      haVotado, creado, imagen, descripcion, comentarios, url,
+      votos, creador, empresa, id
    } = producto
 
    const [comentario, guardarComentario] = useState<IComentarios>({
@@ -79,36 +38,8 @@ const ProductPage: React.FC = () => {
    // mientras es cargando muestra esto
    if (Object.keys(producto).length === 0) return <h2>Loading...</h2>
 
-   // funcion para votar
-   const votarProducto = async () => {
-      if (!user) return router.push('/login')
-
-      // obtener y sumar un nuevo voto
-      const nuevoTotal = votos + 1
-
-      // verificar si el usuario ya voto
-      if (haVotado.includes(user.uid)) return
-
-      // guardar el id del usuario que ha votado
-      const nuevoHaVotado = [...haVotado, user.uid]
-
-      // actualizar en la base de datos
-      await firebaseDB.db.collection('productos').doc(id).update({
-         votos: nuevoTotal,
-         haVotado: nuevoHaVotado,
-      })
-
-      // actualizar el state
-      setProducto({
-         ...producto,
-         votos: nuevoTotal,
-         haVotado: nuevoHaVotado,
-      })
-   }
-
-   // JP
+   // functions
    const comentarioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(e.target.value)
       guardarComentario({
          ...comentario,
          [e.target.name]: e.target.value,
@@ -210,28 +141,22 @@ const ProductPage: React.FC = () => {
                   {comentarios.map((comentario, idx) => (
                      <li key={`${comentario.userId}-${idx}`}>
                         <p>{comentario.mensaje}</p>
-                        <p>Escrito por: {comentario.userNombre}</p>
-                        { esCreador( comentario.userId ) && <CreadorProducto>Es Creador</CreadorProducto> }
+                        <p>Escrito por: <b>{comentario.userNombre}</b></p>
+                        { esCreador( comentario.userId ) && <CreadorProducto>Autor</CreadorProducto> }
                      </li>
                   ))}
                </Comentarios>
             </div>
-            <aside>
-               <Button target="_blank" bgColor={true} href={url}>
-                  Visitar Url
-               </Button>
 
-               <div>
-                  <p>{votos} Votos</p>
-                  {user && <Button onClick={votarProducto}>Votar</Button>}
-               </div>
-            </aside>
+            <Aside url={url} user={user} votos={votos} votarProducto={() => {
+               votar(user, router, votos, haVotado, firebaseDB, id, producto, setProducto)
+            }}/>   
+
          </ProductContainer>
-         
-         { puedeBorrar() && <Button onClick={eliminarProducto}>Eliminar Producto</Button> }
-         
+         <div style={{marginTop: '1rem'}}>
+            { puedeBorrar() && <Button onClick={eliminarProducto}>Eliminar Producto</Button> }
+         </div>
       </div>
    )
 }
-
 export default ProductPage

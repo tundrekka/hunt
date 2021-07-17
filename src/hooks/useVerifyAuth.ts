@@ -6,7 +6,6 @@ export const useVerifyAuth = () => {
    const [checking, setChecking] = useState(true)
    useEffect(() => {
       const unsuscribe = firebaseDB.auth.onAuthStateChanged((user) => {
-         console.log('cambiao el auth')
          if(user) {
             setUserAuthenticated(user)
          } else {

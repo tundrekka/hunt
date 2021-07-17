@@ -1,6 +1,6 @@
-import type { NewProduct, NewProductErrors } from 'types/types'
-
-export const validateNewProduct = (formValues: NewProduct) => {
+import type { NewProductForm, NewProductErrors } from 'types/types'
+import validator from 'validator'
+export const validateNewProduct = (formValues: NewProductForm) => {
    let errors: NewProductErrors = {}
    // validaciones para el formulario de new Product, se podria usar una libreria
    // validando el nombre del producto
@@ -13,11 +13,13 @@ export const validateNewProduct = (formValues: NewProduct) => {
    }
 
    if( !formValues.url ) {
-      errors.url = 'La url es obligatoria'
-   } 
+      errors.url = 'La url del sitio del producto es obligatoria'
+   } else if(!validator.isURL(formValues.url)) {
+      errors.url = 'Url invalida'
+   }
 
    if(!formValues.descripcion) {
-      errors.descripcion = 'Agreaga una descripcion de tu producto'
+      errors.descripcion = 'Agrega una descripcion de tu producto'
    }
    return errors
 }

@@ -5,16 +5,23 @@ import Link from 'next/link'
 
 import { Navigation } from './Navigation'
 import { Button } from 'components/ui/Button'
+import { Searcher } from 'components/ui/Searcher'
 import { FirebaseContext } from 'firebase/index'
+import { MobileNavigation } from './MobileNavigation'
 import { useRouter } from 'next/router'
 
 const HeaderContainer = styled.div`
    max-width: 1200px;
    width: 95%;
    margin: 0 auto;
-   @media (min-width: 768px) {
-      display: flex;
+   text-align: center;
+
+   & > div {
+      display: grid;
+      grid-template-columns: 1fr 3fr 1fr;
+      align-items: center;
       justify-content: space-between;
+
    }
 `
 const Logo = styled.a`
@@ -22,9 +29,19 @@ const Logo = styled.a`
    font-size: 4rem;
    line-height: 0;
    font-weight: 700;
-   margin-right: 2rem;
 `
-export const Header: React.FC = () => {
+
+const TextLink = styled.button`
+   border: none;
+   background: transparent;
+   font-size: 1.5rem;
+   padding: .5em;
+   color: white;
+   cursor: pointer;
+
+`
+
+export const MobileHeader: React.FC = () => {
    const {user, firebaseDB} = useContext(FirebaseContext);
    const router = useRouter()
    return (
@@ -35,20 +52,35 @@ export const Header: React.FC = () => {
          }}
       >
          <HeaderContainer>
-            <div 
-               style={{
-                  display: 'flex',
-                  alignItems: 'center'
-               }}
-            >
+            <div>
+               <MobileNavigation />
                <Link href="/" passHref>
                   <Logo>
                      <p>Logo</p>
                   </Logo>
                </Link>
 
-               {/* <Searcher /> */}
-               <Navigation />
+               {/* menu administracion */}
+               {
+                  user
+                  ? (
+                     <>
+                        <TextLink
+                           onClick={() => {
+                              firebaseDB.loggout()
+                              router.replace('/')
+                           }}
+                        >Cerrar sesion</TextLink>
+                     </>
+                  )
+                  : (
+                     <>
+                        <Link href="/login" passHref>
+                           <Button bgColor={true}>Login</Button>
+                        </Link>
+                     </>
+                  )
+               }
             </div>
 
             {/* right side of navbar */}
@@ -59,34 +91,7 @@ export const Header: React.FC = () => {
                }}
             >
 
-               {/* menu administracion */}
-               {
-                  user
-                  ? (
-                     <>
-                        <p style={{marginRight: '.5rem'}}>{user.displayName}</p>
-                        <Button
-                           onClick={() => {
-                              firebaseDB.loggout()
-                              router.replace('/')
-                           }}
-                        >cerrar sesion</Button>
-                     </>
-                  )
-                  : (
-                     <>
-                        <div style={{marginRight: '1rem'}}>
-                           <Link href="/login" passHref>
-                              <Button bgColor={true}>Login</Button>
-                           </Link>
-                        </div>
-      
-                        <Link href="/create-account" passHref>
-                           <Button>Crear Cuenta</Button>
-                        </Link>
-                     </>
-                  )
-               }
+               
 
             </div>
          </HeaderContainer>

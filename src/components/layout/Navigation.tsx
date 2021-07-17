@@ -15,7 +15,6 @@ const Nav = styled.nav`
       }
    }
 `
-FirebaseContext
 export const Navigation: React.FC = () => {
 
    const { user } = useContext(FirebaseContext)

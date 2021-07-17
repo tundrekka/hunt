@@ -12,9 +12,9 @@ import { useValidacion } from 'hooks/useValidacion'
 import type { CreateAccInitialState } from 'types/types'
 
 const initialFormState: CreateAccInitialState = {
-   nombre: 'ismael',
-   email: 'test-user@gmail.com',
-   password: '1234567',
+   nombre: '',
+   email: '',
+   password: '',
 }
 
 export default function CreateAccount() {
@@ -33,8 +33,8 @@ export default function CreateAccount() {
          <>
             <h2 style={{ textAlign: 'center' }}>Crear Cuenta</h2>
             <Formulario onSubmit={handleSubmit}>
-               {errors.nombre && <Error>{errors.nombre}</Error>}
                <Campo>
+                  {errors.nombre && <Error>{errors.nombre}</Error>}
                   <label htmlFor="nombre">Nombre</label>
                   <input
                      type="text"
@@ -47,8 +47,8 @@ export default function CreateAccount() {
                   />
                </Campo>
 
-               {errors.email && <Error>{errors.email}</Error>}
                <Campo>
+                  {errors.email && <Error>{errors.email}</Error>}
                   <label htmlFor="email">Email</label>
                   <input
                      type="email"
@@ -61,8 +61,8 @@ export default function CreateAccount() {
                   />
                </Campo>
 
-               {errors.password && <Error>{errors.password}</Error>}
                <Campo>
+                  {errors.password && <Error>{errors.password}</Error>}
                   <label htmlFor="password">Password</label>
                   <input
                      type="password"

@@ -23,14 +23,27 @@ export const useProducts = (orden: IOrderBy) => {
       const getProducts = () => {
          firebaseDB.db.collection('productos').orderBy(orden, 'desc').onSnapshot((snapShot) => {
             const productosResp = handleSnapshot(snapShot)
+            // console.log(productosResp)
             setProducts(productosResp)
          })
+         // console.log(user?.uid)
+         // const resp = await firebaseDB.db.collection('comentarios').get()
+         // resp.docs.forEach((doc) => {
+         //    console.log(doc.data())
+         // })
+         // firebaseDB.db.doc('productos/7UjgtkqB144lND4ovGAU').update({
+         //    comentarios: []
+         // }).then(() => {
+            
+         //    console.log('se actualizo')
+         // }).catch((e) => {
+         //    console.warn(e)
+
+         // })
       }
       getProducts()
 
-      return () => {
-         console.log('desmonatao')
-      }
+      return () => {}
 
    // eslint-disable-next-line react-hooks/exhaustive-deps
    }, [])

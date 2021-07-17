@@ -13,10 +13,11 @@ import type { LoginInitialState } from 'types/types'
 import { startLogin } from 'helpers/startLogin'
 import { FirebaseContext } from 'firebase/index'
 import router from 'next/router'
+import Link from 'next/link'
 
 const initialFormState: LoginInitialState = {
-   email: 'test-user@gmail.com',
-   password: '1234567',
+   email: '',
+   password: '',
 }
 
 export default function Login() {
@@ -39,38 +40,44 @@ export default function Login() {
    return (
       <div>
          <h2 style={{ textAlign: 'center' }}>Iniciar Sesion</h2>
-            <Formulario onSubmit={handleSubmit}>
+         <Formulario onSubmit={handleSubmit}>
 
+            <Campo>
                {errors.email && <Error>{errors.email}</Error>}
-               <Campo>
-                  <label htmlFor="email">Email</label>
-                  <input
-                     type="email"
-                     value={email}
-                     onChange={handleInputChange}
-                     onBlur={handleBlur}
-                     name="email"
-                     id="email"
-                     placeholder="tu email"
-                  />
-               </Campo>
+               <label htmlFor="email">Email</label>
+               <input
+                  type="email"
+                  value={email}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  name="email"
+                  id="email"
+                  placeholder="tu email"
+               />
+            </Campo>
 
+            <Campo>
                {errors.password && <Error>{errors.password}</Error>}
-               <Campo>
-                  <label htmlFor="password">Password</label>
-                  <input
-                     type="password"
-                     value={password}
-                     onChange={handleInputChange}
-                     onBlur={handleBlur}
-                     name="password"
-                     id="password"
-                     placeholder="tu password"
-                  />
-               </Campo>
-               {errorFirebase && <Error>{errorFirebase}</Error>}
-               <InputSubmit type="submit" value="Iniciar Sesion" />
-            </Formulario>
+               <label htmlFor="password">Password</label>
+               <input
+                  type="password"
+                  value={password}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  name="password"
+                  id="password"
+                  placeholder="tu password"
+               />
+            </Campo>
+            {errorFirebase && <Error>{errorFirebase}</Error>}
+            <InputSubmit type="submit" value="Iniciar Sesion" />
+         </Formulario>
+
+         <p style={{textAlign: 'center'}}>No estas registrado?
+            <Link href="/create-account" passHref>
+               <a style={{color: 'orangered', fontWeight: 'bold'}}>{' '}Crea una cuenta!</a>
+            </Link>
+         </p>
       </div>
    )
 }

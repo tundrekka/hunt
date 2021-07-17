@@ -6,6 +6,7 @@ import {
    Campo,
    InputSubmit,
    Error,
+   UploadingMsg,
 } from 'components/ui/Formulario.styles'
 
 import type { NewProductForm, Product } from 'types/types'
@@ -17,11 +18,12 @@ import { Error404 } from 'components/layout/404'
 
 const initialFormState: NewProductForm = {
    nombre: '',
-   empresa: 'empresa',
+   empresa: '',
    imagen: '',
-   url: '1234567',
-   descripcion: 'descripocion'
+   url: '',
+   descripcion: ''
 }
+
 export default function CreateAccount() {
    
    const { user, firebaseDB } = useContext(FirebaseContext)
@@ -65,7 +67,8 @@ export default function CreateAccount() {
          haVotado: []
       }
       try {
-         await firebaseDB.db.collection('productos').add(producto)
+         const resp = await firebaseDB.db.collection('productos').add(producto)
+         console.log(resp)
          console.log('creado con exito el producto');
       } catch (error) {
          console.warn(error.message)
@@ -77,9 +80,9 @@ export default function CreateAccount() {
       setUploading(true)
    }
 
-   const handleProgress = (progresss: any) => {
-      setProgress(progresss)
-      console.log(progresss)
+   const handleProgress = (progress: any) => {
+      setProgress(progress)
+      console.log(progress)
    }
 
    const handleUploadError = ( error: any ) => {
@@ -112,8 +115,8 @@ export default function CreateAccount() {
                <legend>Informacion Genereal</legend>
             
 
-               {errors.nombre && <Error>{errors.nombre}</Error>}
                <Campo>
+                  {errors.nombre && <Error>{errors.nombre}</Error>}
                   <label htmlFor="nombre">Nombre</label>
                   <input
                      type="text"
@@ -126,8 +129,8 @@ export default function CreateAccount() {
                   />
                </Campo>
 
-               {errors.empresa && <Error>{errors.empresa}</Error>}
                <Campo>
+                  {errors.empresa && <Error>{errors.empresa}</Error>}
                   <label htmlFor="empresa">Empresa</label>
                   <input
                      type="text"
@@ -153,10 +156,12 @@ export default function CreateAccount() {
                      onProgress={handleProgress}
                      randomizeFilename
                   />
+                  { uploading && <UploadingMsg>Uploading...</UploadingMsg> }
+                  { (progress === 100) && <UploadingMsg>Done</UploadingMsg> }
                </Campo>
 
-               {errors.url && <Error>{errors.url}</Error>}
                <Campo>
+                  {errors.url && <Error>{errors.url}</Error>}
                   <label htmlFor="url">URL</label>
                   <input
                      type="url"
@@ -172,8 +177,8 @@ export default function CreateAccount() {
 
             <fieldset>
                <legend>Sobre tu producto</legend>
-               {errors.descripcion && <Error>{errors.descripcion}</Error>}
                <Campo>
+                  {errors.descripcion && <Error>{errors.descripcion}</Error>}
                   <label htmlFor="descripcion">Descripcion</label>
                   <textarea
                      name="descripcion"
@@ -186,7 +191,7 @@ export default function CreateAccount() {
             </fieldset>
 
             {errorFirebase && <Error>{errorFirebase}</Error>}
-            <InputSubmit type="submit" value="Crear Producto" />
+            <InputSubmit disabled={uploading} type="submit" value="Crear Producto" />
          </Formulario>
             
       </div>

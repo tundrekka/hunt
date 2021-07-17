@@ -1,12 +1,14 @@
 import type { FC } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 import { Header } from './Header'
+import { MobileHeader } from './MobileHeader'
 
 const GlobalStyles = createGlobalStyle`
    :root {
       --gray: #3d3d3d;
       --gray-light: #6F6F6F;
-      --orange: #DA552F;
+      /* --orange: #DA552F; */
+      --orange: limegreen;
    }
 
    html {
@@ -37,6 +39,27 @@ const GlobalStyles = createGlobalStyle`
       max-width: 100%;
    }
 
+   // scrollbar styles
+   ::-webkit-scrollbar {
+      -webkit-appearance: none;
+   }
+
+   /* ::-webkit-scrollbar:vertical {
+      width: 8px;
+   } */
+
+   /* ::-webkit-scrollbar-button:increment,::-webkit-scrollbar-button {
+      display: none;
+   }  */
+
+   ::-webkit-scrollbar-thumb {
+      background-color: #686868;
+   }
+
+   ::-webkit-scrollbar-track {
+      background: #424242;  
+   }
+
 `
 const Container = styled.div`
    max-width: 1200px;
@@ -50,7 +73,13 @@ export const Layout: FC = ({children}) => {
       <>
          <GlobalStyles />
 
-         <Header />
+         {
+            (window.innerWidth > 768) 
+            ? <Header />
+            : <MobileHeader />
+            
+         }
+         
          
          <main>
             <Container>

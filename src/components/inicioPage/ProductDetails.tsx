@@ -22,7 +22,7 @@ export const ProductDetails: React.FC<Props> = ({ product }) => {
    return (
       <Producto>
          <DescripcionProducto>
-            <div>
+            <div className="img">
                <Imagen src={imagen} alt="imagen" />
             </div>
             <div>
@@ -40,7 +40,7 @@ export const ProductDetails: React.FC<Props> = ({ product }) => {
                      <p>{comentarios.length} Comentarios</p>
                   </div>
                </Comentarios>
-               <p>
+               <p style={{fontSize: '1.3rem', margin: '0'}}>
                   Publicado hace:{' '}
                   {moment(new Date(creado)).startOf('minute').fromNow()}
                </p>
