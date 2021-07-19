@@ -7,7 +7,7 @@ import { Campo, InputSubmit } from 'components/ui/Formulario.styles'
 import { Aside } from 'components/[id]/Aside'
 import { votar } from 'helpers/votarPorProducto'
 import { useGetProduct } from 'hooks/useGetProduct'
-import { Comentarios, CreadorProducto, Descripcion, Image, ProductContainer } from 'components/[id]/[id].styles'
+import { Comentarios, CreadorProducto, Descripcion, ProductContainer } from 'components/[id]/[id].styles'
 import { SpinnerStyles } from 'components/ui/Spinner.styles'
 
 interface IComentarios {
