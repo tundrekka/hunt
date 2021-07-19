@@ -1,9 +1,10 @@
-import { LazyLoad } from 'components/LazyLoad'
+// import { LazyLoad } from 'components/LazyLoad'
 import moment from 'moment'
 import Link from 'next/link'
+import ImgImage from 'next/image'
 import { ProductWithId } from 'types/types'
 import {
-   Producto, DescripcionProducto, Imagen, Titulo, TextoDescripcion,
+   Producto, DescripcionProducto, Titulo, TextoDescripcion,
    Comentarios,
    ComentariosIcon,
    Votos,
@@ -16,17 +17,27 @@ interface Props {
 
 export const ProductDetails: React.FC<Props> = ({ product }) => {
    const {
-      nombre, empresa, imagen, descripcion, creado,
-      url, comentarios, votos, id
+      nombre, imagen, descripcion, creado,
+      comentarios, votos, id
    } = product
 
    return (
       <Producto>
          <DescripcionProducto>
             <div className="img">
-               <LazyLoad>
-                  <Imagen src={imagen} alt="imagen" />
-               </LazyLoad>
+               {/* <LazyLoad> */}
+                  {
+                     (imagen.length === 0)
+                     ? (
+                        <p style={{textAlign: 'center', color: '#686868'}}>No image</p>
+                     )
+                     : (
+                        <ImgImage className="imgnext" src={{src: imagen, height: 150, width: 150}}/>
+                        // <Imagen src={imagen} alt="product img" />
+                     )
+                  }
+                  
+               {/* </LazyLoad> */}
             </div>
             <div>
                <Link passHref href="/productos/[id]" as={`/productos/${id}`}>

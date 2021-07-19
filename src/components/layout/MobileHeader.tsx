@@ -3,9 +3,7 @@ import styled from 'styled-components'
 import Link from 'next/link'
 
 
-import { Navigation } from './Navigation'
 import { Button } from 'components/ui/Button'
-import { Searcher } from 'components/ui/Searcher'
 import { FirebaseContext } from 'firebase/index'
 import { MobileNavigation } from './MobileNavigation'
 import { useRouter } from 'next/router'

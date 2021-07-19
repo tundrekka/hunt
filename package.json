@@ -1,11 +1,11 @@
 {
-  "name": "test-ts-app",
+  "name": "hunt-ts-app",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -H 192.168.0.101",
     "lint": "next lint",
     "local": "next dev -H 192.168.0.101"
   },
@@ -26,6 +26,8 @@
     "@types/react": "17.0.13",
     "@types/styled-components": "^5.1.11",
     "@types/validator": "^13.6.3",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
     "babel-plugin-styled-components": "^1.13.2",
     "eslint": "7.30.0",
     "eslint-config-next": "11.0.1",

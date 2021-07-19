@@ -1,8 +1,12 @@
 
-export const Error404: React.FC = () => {
+interface Props {
+   msg?: string
+}
+
+export const Error404: React.FC<Props> = ({msg = 'No puede visualizar esta pagina'}) => {
    return (
       <div>
-         <h1>No puede visualizar esta pagina</h1>
+         <h2>{msg}</h2>
       </div>
    )
 }

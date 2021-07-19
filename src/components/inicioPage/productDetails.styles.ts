@@ -8,12 +8,18 @@ export const Producto = styled.li`
    align-items: center;
    border-bottom: 1px solid #a5a5a5d5;
    /* margin-bottom: 10px; */
+   .imgnext {
+      box-shadow: -1.5px 1.5px 3px rgba(0,0,0,.9);
+      object-fit: cover;
+      border-radius: 3.5px;
+   }
 `
 
 export const DescripcionProducto = styled.div`
    display: flex;
    align-items: center;
    & > div.img {
+      box-shadow: -1.5px 1.5px 3px rgba(0,0,0,.9);
       border-radius: 5px;
       width: 90px;
       @media (min-width: 768px) {

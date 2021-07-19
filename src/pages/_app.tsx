@@ -1,18 +1,18 @@
-import 'styles/globals.css'
 import type { AppProps } from 'next/app'
+import Head from 'next/head'
+import { useState } from 'react'
 import { Layout } from 'components/layout/Layout'
 import { FirebaseContext, firebaseDB } from 'firebase/index'
 import { useVerifyAuth } from 'hooks/useVerifyAuth'
 import { ProductContext } from 'context/ProductsContext'
-import { useState } from 'react'
 import { ProductWithId } from 'types/types'
+import { SpinnerStyles } from 'components/ui/Spinner.styles'
 
 function MyApp({ Component, pageProps }: AppProps) {
 
    const {userAuthenticated: user, checking} = useVerifyAuth()
    const [ products, setProducts ] = useState<ProductWithId[]>([])
    const [ noMoreData, setNoMoreData ] = useState(false)
-   if(checking) return (<h1>Esperate lambe bicho tamo chekeando cabron</h1>)
 
    return (
       <FirebaseContext.Provider
@@ -21,17 +21,45 @@ function MyApp({ Component, pageProps }: AppProps) {
             user
          }}
       >
-         <ProductContext.Provider value={{
-            products,
-            setProducts,
-            noMoreData,
-            setNoMoreData
+         <Head>
+            <style>
+               {`
+                  body, html {
+                     padding: 0;
+                     margin: 0;
+                  }`
+               }
+            </style>
+         </Head>
+         {
+            checking ? (
+               <div style={{
+                  background: '#1d1d1d',
+                  minHeight:' 100vh',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+               }}>
+                  <SpinnerStyles>Loading...</SpinnerStyles>
+               </div>
+            )
 
-         }}>
-            <Layout>
-               <Component {...pageProps} />
-            </Layout>
-         </ProductContext.Provider>
+            : (
+               <ProductContext.Provider value={{
+                  products,
+                  setProducts,
+                  noMoreData,
+                  setNoMoreData
+               }}>
+                  <Layout>
+                     <Component {...pageProps} />
+                  </Layout>
+               </ProductContext.Provider>
+            )
+         }      
+         
+
       </FirebaseContext.Provider>
    )
 }

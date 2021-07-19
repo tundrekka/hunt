@@ -26,7 +26,7 @@ const ButtonUnstyled = styled.button`
 const HamburgerMenu = styled.div`
    position: absolute;
    background-color: rgba(25, 29, 24, 0.989);
-   width: 50vw;
+   width: 75vw;
    height: 100vh;
    top: 7.1rem;
    /* bottom: 25px; */
@@ -45,6 +45,7 @@ const HamburgerMenu = styled.div`
       &:first-of-type {
          margin-top: 6px;
       }
+      border-bottom: .5px solid rgba(245, 245, 245, 0.5);
    }
 `
 
@@ -59,7 +60,6 @@ export const MobileNavigation: React.FC = () => {
       setTimeout(() => {
          setshowMenu( false )
       }, 20);
-      console.log('blureao')
    }
    useEffect(() => {
       const copyButtonRef = buttonRef.current

@@ -7,9 +7,32 @@ export const ProductContainer = styled.div`
       grid-template-columns: 2.5fr 1fr;
       column-gap: 1.5rem;
    }
+
+   .img-container {
+      min-height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      line-height: 0;
+      width: 100%;
+      background: #414141;
+   }
+   .imgnext {
+      box-shadow: -1px 1px 3px rgba(0,0,0,.9);
+      object-fit: cover;
+      object-position: center center;
+   }
 `
 export const Image = styled.img`
-   background: #888;
+   background: #414141;
+   /* height: 50vh; */
+   /* min-height: 200px; */
+   /* width: 100%; */
+`
+
+export const Descripcion = styled.p`
+   white-space: pre-line;
+   color: #cfcfcf;
 `
 
 export const CreadorProducto = styled.p`

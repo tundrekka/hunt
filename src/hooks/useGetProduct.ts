@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import { FirebaseContext } from 'firebase/index'
 import type { ProductWithId } from 'types/types';
 import type { IFirebaseClass } from 'firebase/firebase'
-import type { IFirebaseDocumentSnapShot } from 'types/auth'
 
 
 // external function
@@ -41,13 +40,13 @@ export const useGetProduct = () => {
             const productId = id as string | undefined
             getProduct(productId, firebaseDB)
             .then(setProducto)
-            .catch((error) => {
-               console.warn(error)
+            .catch(() => {
+               // eslint-disable-next-line no-console
+               console.warn('error obteniendo el producto')
                setError(true)
             })
             .finally(() => {
                setDbChanged(false)
-               console.log('ejcuta peticion')
             })
          }
       }

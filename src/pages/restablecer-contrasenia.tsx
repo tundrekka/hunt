@@ -26,14 +26,20 @@ const initialFormState: IFormInitState = {
 const RestablecerContrasenia: React.FC = () => {
 
    const [errorFirebase, setErrorFirebase] = useState<string | null>(null)
-   console.log(errorFirebase)
-   const { formValues, errors, handleSubmit, handleInputChange, handleBlur } =
+   const [emailSent, setEmailSent] = useState(false);
+   const { formValues, errors, handleSubmit, handleInputChange, handleBlur, resetForm } =
       useValidacion(initialFormState, validateEmail, () => {
-         restablecerPassword(formValues.email, setErrorFirebase)
+         restablecerPassword(formValues.email, setErrorFirebase, setEmailSent, resetForm)
       })
    return (
       <div>
          <Formulario onSubmit={handleSubmit}>
+            {
+               emailSent 
+               && (
+                  <h4>El email fue enviado, chequea tu correo electronico y sigue las instrucciones</h4>
+               )
+            }
             <Campo>
                {errors.email && <Error>{errors.email}</Error>}
                <label htmlFor="email">Email</label>
@@ -55,14 +61,3 @@ const RestablecerContrasenia: React.FC = () => {
 }
 
 export default RestablecerContrasenia
-
-// firebase.auth().sendPasswordResetEmail(email)
-//   .then(() => {
-//     // Password reset email sent!
-//     // ..
-//   })
-//   .catch((error) => {
-//     var errorCode = error.code;
-//     var errorMessage = error.message;
-//     // ..
-//   });

@@ -1,6 +1,5 @@
-import { FC, useRef } from 'react'
+import { FC, useRef, memo } from 'react'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
-import { memo } from 'react'
 
 export const LazyLoad: FC = memo(({ children }) => {
    const ref = useRef<HTMLDivElement | null>(null)

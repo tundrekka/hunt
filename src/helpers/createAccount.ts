@@ -11,12 +11,12 @@ export const crearCuenta = async (
 ) => {
    try {
       await firebaseDB.registrar(nombre, email, password)
-      console.log('creado user')
       setErrorFirebase(null)
       Router.push('/')
 
    } catch (error) {
 
+      // eslint-disable-next-line no-console
       console.error('hubo un error con firebase')
       if(isFirebaseError(error)) {
          setErrorFirebase(error.message)

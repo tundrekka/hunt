@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import FileUploader from 'react-firebase-file-uploader'
 
 import {
@@ -27,9 +27,7 @@ const initialFormState: NewProductForm = {
 export default function CreateAccount() {
    
    const { user, firebaseDB } = useContext(FirebaseContext)
-
    // file upload states
-   const [imageName, setImageName] = useState('')
    const [uploading, setUploading] = useState(false)
    const [progress, setProgress] = useState(0)
    const [imageUrl, setImageUrl] = useState('')
@@ -67,33 +65,31 @@ export default function CreateAccount() {
          haVotado: []
       }
       try {
-         const resp = await firebaseDB.db.collection('productos').add(producto)
-         console.log(resp)
-         console.log('creado con exito el producto');
+         await firebaseDB.db.collection('productos').add(producto)
          return router.push('/')
       } catch (error) {
-         console.warn(error.message)
+         // eslint-disable-next-line no-console
+         console.log('error subiendo el producto')
+         setErrorFirebase(error.message)
       }
    } // end*
 
-   const handleUploadStart = () => {
+   const handleUploadStart = useCallback(() => {
       setProgress(0)
       setUploading(true)
-   }
+      },[])
 
-   const handleProgress = (progress: any) => {
+   const handleProgress = useCallback((progress: any) => {
       setProgress(progress)
-      console.log(progress)
-   }
+      }, [])
 
-   const handleUploadError = ( error: any ) => {
+   const handleUploadError = useCallback(( error: any ) => {
       setUploading(error)
-      console.error( error )
-   }
-   const handleUploadSuccess = (nombre: any) => {
+      }, [])
+   
+   const handleUploadSuccess = useCallback( (nombre: any) => {
       setProgress(100)
       setUploading(false)
-      setImageName(nombre)
       firebaseDB
          .storage
          .ref('productos')
@@ -102,7 +98,8 @@ export default function CreateAccount() {
          .then((url) => {
             setImageUrl(url)
          })
-   }
+      }, [firebaseDB.storage]
+   )
 
    if( !user ) return <Error404 /> 
 
@@ -113,7 +110,7 @@ export default function CreateAccount() {
          <Formulario onSubmit={handleSubmit}>
 
             <fieldset>
-               <legend>Informacion Genereal</legend>
+               <legend>Informacion General</legend>
             
 
                <Campo>
@@ -194,7 +191,6 @@ export default function CreateAccount() {
             {errorFirebase && <Error>{errorFirebase}</Error>}
             <InputSubmit disabled={uploading} type="submit" value="Crear Producto" />
          </Formulario>
-            
       </div>
    )
 }

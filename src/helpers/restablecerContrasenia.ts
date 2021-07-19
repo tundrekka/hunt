@@ -1,20 +1,23 @@
 import type { SetStateAction } from 'react'
-import Router from 'next/router'
 import { firebaseDB } from 'firebase/index'
 import { isFirebaseError } from './isFirebaseError'
+import React from 'react'
 
 export const restablecerPassword = async (
    email: string,
-   setErrorFirebase: React.Dispatch<SetStateAction<string | null>>
+   setErrorFirebase: React.Dispatch<SetStateAction<string | null>>,
+   setEmailSent: React.Dispatch<SetStateAction<boolean>>,
+   resetForm: () => void
 ) => {
    try {
-      const user = await firebaseDB.startNewPassword(email)
-      console.log('emailenviadl', user)
-      // Router.push('/')
+      await firebaseDB.startNewPassword(email)
+      setEmailSent(true)
+      setErrorFirebase(null)
+      resetForm()
    } catch (error) {
-      console.log('error reseteando password')
+      // eslint-disable-next-line no-console
+      console.warn('error reseteando password')
       if(isFirebaseError(error)) {
-         console.log(error)
          setErrorFirebase(error.message)
       }
    }

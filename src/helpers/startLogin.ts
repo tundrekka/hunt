@@ -9,10 +9,10 @@ export const startLogin = async (
    setErrorFirebase: React.Dispatch<SetStateAction<string | null>>
 ) => {
    try {
-      const user = await firebaseDB.login(email, password)
-      console.log(user)
+      await firebaseDB.login(email, password)
       Router.push('/')
    } catch (error) {
+      // eslint-disable-next-line no-console
       console.log('error logueando')
       if(isFirebaseError(error)) {
          setErrorFirebase(error.message)

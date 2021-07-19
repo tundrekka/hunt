@@ -14,9 +14,9 @@ export const validateCreateAccount = (formValues: CreateAccInitialState) => {
    }
 
    if( !formValues.password ) {
-      errors.password = 'La contrasenia es obligatoria'
+      errors.password = 'La contraseña es obligatoria'
    } else if( formValues.password.length <= 6 ) {
-      errors.password = 'La contrasenia debe tener al menos 7 caracteres'
+      errors.password = 'La contraseña debe tener al menos 7 caracteres'
    }
    return errors
 }

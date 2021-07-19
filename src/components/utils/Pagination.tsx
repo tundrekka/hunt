@@ -1,15 +1,24 @@
-// import { Button } from 'components/ui/Button'
-// import { LoadPostsContext } from 'context/LoadPostsContext'
-// import { PostContext } from 'context/PostContext'
+import { useContext, useState, useEffect } from 'react'
 import { ProductContext } from 'context/ProductsContext'
 import { paginationNext } from 'hooks/useProducts'
-// import { paginationNext } from 'helpers/loadPosts'
-import { useContext, useState, useEffect } from 'react'
-// import { Spinner } from './utils/Spinner'
+import styled from 'styled-components'
+
+const StyledButton = styled.button`
+   text-align: center;
+   cursor: pointer;
+   font-weight: 700;
+   text-transform: uppercase;
+   border: .75px solid #d1d1d1;
+   color: white;
+   background: limegreen;
+   padding: .8rem 1.5rem;
+   margin-top: .5rem;
+`
 
 export const PaginationData: React.FC = () => {
-   const { products, noMoreData ,setProducts, setNoMoreData } = useContext(ProductContext)
+   const { products , setProducts } = useContext(ProductContext)
    const [ isDataLoading, setIsDataLoading ] = useState(false)
+   const [ noMoreData, setNoMoreData ] = useState(false)
    const handlePagination = () => {
       paginationNext(products, setProducts, setIsDataLoading, setNoMoreData)
    }
@@ -31,12 +40,14 @@ export const PaginationData: React.FC = () => {
             // else if...
             : (!isDataLoading && !noMoreData) 
             ? (
-               <button disabled={isDataLoading} onClick={handlePagination}>
-                  Load More Data!
-               </button>
+               <div style={{textAlign: 'center'}}>
+                  <StyledButton disabled={isDataLoading} onClick={handlePagination}>
+                     More Products!
+                  </StyledButton>
+               </div>
             )
             // else if...
-            : (noMoreData) && (<h4>No more Data</h4>)
+            : (noMoreData) && (<h4>No more Products</h4>)
             
          }
 

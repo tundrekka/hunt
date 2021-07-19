@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 import { ProductDetails } from 'components/inicioPage/ProductDetails'
 import { useProducts } from 'hooks/useProducts'
-import type { IOrderBy } from 'types/types'
 import { Producto } from 'components/inicioPage/productDetails.styles'
+import { PaginationData } from 'components/utils/Pagination'
 
 // styled Components
 const ProductsList = styled.div`
@@ -34,6 +34,7 @@ export default function Home() {
                   )
                }
             </ul>
+            <PaginationData />
          </ProductsList>
       </>
    )

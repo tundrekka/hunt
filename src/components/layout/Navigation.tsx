@@ -1,5 +1,6 @@
 import { FirebaseContext } from 'firebase/index';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import styled from 'styled-components';
 
@@ -14,19 +15,29 @@ const Nav = styled.nav`
          margin-right: 0;
       }
    }
+  .activeClass > a{
+      color: limegreen;
+      font-weight: 600;
+   }
 `
 export const Navigation: React.FC = () => {
-
+   const router = useRouter()
    const { user } = useContext(FirebaseContext)
 
    return (
       <Nav>
-         <Link href="/" >Inicio</Link>
-         <Link href="/populares" >Populares</Link>
+         <span className={router.pathname == "/" ? "activeClass" : ""}>
+            <Link href="/" >Inicio</Link>
+         </span>
+         <span className={router.pathname == "/populares" ? "activeClass" : ""}>
+            <Link href="/populares" >Populares</Link>
+         </span>
          
          {
             user && (
-               <Link href="/nuevo-producto" >Nuevo Producto</Link>
+               <span className={router.pathname == "/nuevo-producto" ? "activeClass" : ""}>
+                  <Link href="/nuevo-producto" >Nuevo Producto</Link>
+               </span>
             )
          }
       </Nav>

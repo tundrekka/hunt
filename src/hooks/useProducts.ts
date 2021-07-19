@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { FirebaseContext, firebaseDB } from 'firebase/index'
 import type { IFirebaseSnapShot } from 'types/auth'
 import type { ProductWithId } from 'types/types'
