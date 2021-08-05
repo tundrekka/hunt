@@ -15,6 +15,7 @@ import { validateNewProduct } from 'helpers/validationNewProduct'
 import { FirebaseContext } from 'firebase/index'
 import { useRouter } from 'next/router'
 import { Error404 } from 'components/layout/404'
+import { SpinnerStyles } from 'components/ui/Spinner.styles'
 
 const initialFormState: NewProductForm = {
    nombre: '',
@@ -31,6 +32,8 @@ export default function CreateAccount() {
    const [uploading, setUploading] = useState(false)
    const [progress, setProgress] = useState(0)
    const [imageUrl, setImageUrl] = useState('')
+
+   const [submittingForm, setSubmittingForm] = useState(false)
    // end*
 
    // catching firebase error
@@ -48,7 +51,7 @@ export default function CreateAccount() {
       if(!user) {
          return router.push('/login')
       }
-
+      setSubmittingForm(true)
       const producto: Product = {
          nombre,
          empresa,
@@ -72,6 +75,7 @@ export default function CreateAccount() {
          console.log('error subiendo el producto')
          setErrorFirebase(error.message)
       }
+      setSubmittingForm(false)
    } // end*
 
    const handleUploadStart = useCallback(() => {
@@ -189,7 +193,8 @@ export default function CreateAccount() {
             </fieldset>
 
             {errorFirebase && <Error>{errorFirebase}</Error>}
-            <InputSubmit disabled={uploading} type="submit" value="Crear Producto" />
+            {submittingForm && <SpinnerStyles m="50px">Loading...</SpinnerStyles>}
+            <InputSubmit disabled={submittingForm || uploading} type="submit" value="Crear Producto" />
          </Formulario>
       </div>
    )

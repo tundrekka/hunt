@@ -64,7 +64,7 @@ export const Header: React.FC = () => {
                   user
                   ? (
                      <>
-                        <p style={{marginRight: '.5rem'}}>{user.displayName}</p>
+                        <p style={{marginRight: '.75rem'}}>{user.displayName}</p>
                         <Button
                            onClick={() => {
                               firebaseDB.loggout()

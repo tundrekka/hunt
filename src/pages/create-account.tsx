@@ -20,10 +20,19 @@ const initialFormState: CreateAccInitialState = {
 export default function CreateAccount() {
 
    const [errorFirebase, setErrorFirebase] = useState<string | null>(null)
+   const [submitting, setSubmitting] = useState(false)
 
    const { formValues, errors, handleSubmit, handleInputChange, handleBlur } =
-      useValidacion(initialFormState, validateCreateAccount, () => {
-         crearCuenta(nombre, email, password, setErrorFirebase)
+      useValidacion(initialFormState, validateCreateAccount, async() => {
+         setSubmitting(true)
+         try {
+            await crearCuenta(nombre, email, password, setErrorFirebase)
+         } catch (error) {
+            // eslint-disable-next-line no-console
+            console.log('error creating account');
+         } finally {
+            setSubmitting(false)
+         }
       })
       
    const { nombre, email, password } = formValues
@@ -75,7 +84,12 @@ export default function CreateAccount() {
                   />
                </Campo>
                {errorFirebase && <Error>{errorFirebase}</Error>}
-               <InputSubmit type="submit" value="Crear Cuenta" />
+               {
+                  submitting ?
+                  <InputSubmit disabled={submitting} type="text" value="Creating..." />
+                  :
+                  <InputSubmit disabled={submitting} type="submit" value="Crear Cuenta" />
+               }
             </Formulario>
          </>
       </div>

@@ -7,11 +7,16 @@ import { Campo, InputSubmit } from 'components/ui/Formulario.styles'
 import { Aside } from 'components/[id]/Aside'
 import { votar } from 'helpers/votarPorProducto'
 import { useGetProduct } from 'hooks/useGetProduct'
-import { Comentarios, CreadorProducto, Descripcion, ProductContainer } from 'components/[id]/[id].styles'
+import {
+   Comentarios,
+   CreadorProducto,
+   Descripcion,
+   ProductContainer,
+} from 'components/[id]/[id].styles'
 import { SpinnerStyles } from 'components/ui/Spinner.styles'
 
 interface IComentarios {
-   mensaje: string,
+   mensaje: string
    userId: string | undefined | null
    userNombre: string | undefined | null
 }
@@ -19,28 +24,50 @@ interface IComentarios {
 const initCommentsState: IComentarios = {
    mensaje: '',
    userId: null,
-   userNombre: null
+   userNombre: null,
 }
 
 // Functional Component
 const ProductPage: React.FC = () => {
+
    const {
-      producto, error, user, router, firebaseDB,
-      setProducto, setDbChanged
+      producto,
+      error,
+      user,
+      router,
+      firebaseDB,
+      setProducto,
+      setDbChanged,
    } = useGetProduct()
 
    const {
-      haVotado, creado, imagen, descripcion, comentarios, url,
-      votos, creador, empresa, id
+      haVotado,
+      creado,
+      imagen,
+      descripcion,
+      comentarios,
+      url,
+      votos,
+      creador,
+      empresa,
+      id,
    } = producto
 
-   const [comentario, guardarComentario] = useState<IComentarios>(initCommentsState)
+   const [comentario, guardarComentario] =
+      useState<IComentarios>(initCommentsState)
+
+   const [submittingForm, setSubmittingForm] = useState(false)
+   const [deletingProduct, setDeletingProduct] = useState(false)
 
    // si hay en error redirige a pagina Error404
-   if (error) return <Error404 msg="Chequea tu coneccion a internet e intenta recargar la pagina" />
-   
+   if (error)
+      return (
+         <Error404 msg="Chequea tu coneccion a internet e intenta recargar la pagina" />
+      )
+
    // mientras es cargando muestra esto
-   if (Object.keys(producto).length === 0) return <SpinnerStyles>Loading...</SpinnerStyles>
+   if (Object.keys(producto).length === 0)
+      return <SpinnerStyles>Loading...</SpinnerStyles>
 
    // functions
    const comentarioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,8 +91,8 @@ const ProductPage: React.FC = () => {
          return router.push('/login')
       }
 
-      if(comentario.mensaje.length < 3) return
-
+      if (comentario.mensaje.length < 3) return
+      setSubmittingForm(true)
       // información extra al comentario
       comentario.userId = user.uid
       comentario.userNombre = user.displayName
@@ -77,13 +104,14 @@ const ProductPage: React.FC = () => {
       await firebaseDB.db.collection('productos').doc(id).update({
          comentarios: nuevosComentarios,
       })
+      setSubmittingForm(false)
 
       // Actualizar el state
       setProducto({
          ...producto,
          comentarios: nuevosComentarios,
       })
-      
+
       // reiniciar el form
       guardarComentario(initCommentsState)
 
@@ -101,21 +129,23 @@ const ProductPage: React.FC = () => {
 
    // eliminar producto
    const eliminarProducto = async () => {
-
-      if(!user) {
+      if (!user) {
          return router.push('/login')
       }
 
-      if(creador.id !== user.uid) {
+      if (creador.id !== user.uid) {
          return router.push('/')
       }
+      setDeletingProduct(true)
 
       try {
-         await firebaseDB.db.collection('productos').doc(id).delete();
+         await firebaseDB.db.collection('productos').doc(id).delete()
          router.push('/')
       } catch (error) {
          // eslint-disable-next-line no-console
-         console.log('error eliminando el producto');
+         console.log('error eliminando el producto')
+      } finally {
+         setDeletingProduct(false)
       }
    }
 
@@ -125,27 +155,28 @@ const ProductPage: React.FC = () => {
             <div>
                <h1 style={{ textAlign: 'center' }}>{producto.nombre}</h1>
 
-               <p style={{color: '#999999'}}>
+               <p style={{ color: '#999999' }}>
                   Publicado hace:{' '}
                   {moment(new Date(creado)).startOf('minute').fromNow()}
                </p>
 
-               <p>
-                  Por: <b>{creador.nombre}</b>, empresa: {empresa}
+               <p style={{marginBottom: 0}}>
+                  Por: <b>{creador.nombre}</b>
+               </p>
+               <p style={{marginTop: 0}}>
+                  Empresa: <b>{empresa}</b>
                </p>
 
                <div className="img-container">
-                  {
-                     imagen.length === 0 
-                     ? (
-                        <p>No hay imagen</p>
-                     )
-                     : (
-                        // <Image src={imagen} alt="product image"></Image>
-                        <ImgImage className="imgnext" src={{src: imagen, height: 576, width:1024}}/>
-                     )
-                  }
-                  
+                  {imagen.length === 0 ? (
+                     <p>No hay imagen</p>
+                  ) : (
+                     // <Image src={imagen} alt="product image"></Image>
+                     <ImgImage
+                        className="imgnext"
+                        src={{ src: imagen, height: 576, width: 1024 }}
+                     />
+                  )}
                </div>
 
                <Descripcion>{descripcion}</Descripcion>
@@ -156,44 +187,78 @@ const ProductPage: React.FC = () => {
                      <h3>Agrega tu comentario</h3>
                      <form onSubmit={agregarComentario}>
                         <Campo>
-                           <input value={comentario.mensaje} onChange={comentarioChange} type="text" name="mensaje" id="mensaje" />
+                           <input
+                              value={comentario.mensaje}
+                              onChange={comentarioChange}
+                              type="text"
+                              name="mensaje"
+                              id="mensaje"
+                           />
                         </Campo>
-                        <InputSubmit type="submit" value="agregar comentario" />
+                        {submittingForm ? (
+                           <InputSubmit
+                              disabled={submittingForm}
+                              type="text"
+                              value="submitting..."
+                           />
+                        ) : (
+                           <InputSubmit
+                              disabled={submittingForm}
+                              type="submit"
+                              value="agregar comentario"
+                           />
+                        )}
                      </form>
                   </>
                )}
 
-               {
-                  (comentarios.length === 0)
-                  ? (
-                     <h3>Nadie ha comentado aun</h3>
-                  )
-                  : (
-                     <>
-                        <h2>Comentarios</h2>
-                        <Comentarios>
-                           {comentarios.map((comentario, idx) => (
-                              <li key={`${comentario.userId}-${idx}`}>
-                                 <p>{comentario.mensaje}</p>
-                                 <p>Escrito por: <b>{comentario.userNombre}</b></p>
-                                 { esCreador( comentario.userId ) && <CreadorProducto>Autor</CreadorProducto> }
-                              </li>
-                           ))}
-                        </Comentarios>
-                     </>
-                  )
-               }
-
-               
+               {comentarios.length === 0 ? (
+                  <h3>Nadie ha comentado aun</h3>
+               ) : (
+                  <>
+                     <h2>Comentarios</h2>
+                     <Comentarios>
+                        {comentarios.map((comentario, idx) => (
+                           <li key={`${comentario.userId}-${idx}`}>
+                              <p>{comentario.mensaje}</p>
+                              <p>
+                                 Escrito por: <b>{comentario.userNombre}</b>
+                              </p>
+                              {esCreador(comentario.userId) && (
+                                 <CreadorProducto>Autor</CreadorProducto>
+                              )}
+                           </li>
+                        ))}
+                     </Comentarios>
+                  </>
+               )}
             </div>
 
-            <Aside url={url} user={user} votos={votos} votarProducto={() => {
-               votar(user, router, votos, haVotado, firebaseDB, id, producto, setProducto)
-            }}/>   
-
+            <Aside
+               url={url}
+               user={user}
+               votos={votos}
+               votarProducto={async () => {
+                  await votar(
+                     user,
+                     router,
+                     votos,
+                     haVotado,
+                     firebaseDB,
+                     id,
+                     producto,
+                     setProducto
+                  )
+               }}
+            />
          </ProductContainer>
-         <div style={{marginTop: '1rem'}}>
-            { puedeBorrar() && <Button onClick={eliminarProducto}>Eliminar Producto</Button> }
+         <div style={{ marginTop: '1rem' }}>
+            {puedeBorrar() &&
+               (!deletingProduct ? (
+                  <Button onClick={eliminarProducto}>Eliminar Producto</Button>
+               ) : (
+                  <p>Deleteting</p>
+               ))}
          </div>
       </div>
    )

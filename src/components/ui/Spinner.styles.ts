@@ -27,10 +27,10 @@ const load4 = keyframes`
       box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
    }
 `
-export const SpinnerStyles = styled.div`
+export const SpinnerStyles = styled.div<{m?: string}>`
    color: #ffffff;
    font-size: 10px;
-   margin: 100px auto;
+   margin: ${(props) => (props.m) ? props.m : '100px'} auto;
    width: .75em;
    height: .75em;
    border-radius: 50%;
