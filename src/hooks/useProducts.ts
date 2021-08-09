@@ -52,7 +52,9 @@ interface IPaginationProps {
       posts: ProductWithId[],
       setPosts: React.Dispatch<React.SetStateAction<ProductWithId[]>>,
       setIsPostsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-      setNoMorePosts: React.Dispatch<React.SetStateAction<boolean>>
+      setNoMorePosts: React.Dispatch<React.SetStateAction<boolean>>,
+      lastDoc: any,
+      orderB: IOrderBy
    ): Promise<void>
 }
 
@@ -60,17 +62,19 @@ export const paginationNext: IPaginationProps = async (
    posts,
    setPosts,
    setIsPostsLoading,
-   setNoMorePosts
+   setNoMorePosts,
+   lastDoc,
+   orderB
 ) => {
    setIsPostsLoading(true)
    const postsSnap = await firebaseDB.db
       .collection('productos')
-      .orderBy(orderByProp, 'desc')
-      .startAfter(lastDocument)
+      .orderBy(orderB || 'creado', 'desc')
+      .startAfter(lastDoc)
       .limit(5)
       .get()
 
-   lastDocument = postsSnap.docs[postsSnap.docs.length - 1] || null
+   // lastDocument = postsSnap.docs[postsSnap.docs.length - 1] || null
 
    const postsToConcatenate: any[] = []
 
