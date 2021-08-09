@@ -8,10 +8,10 @@ import { ProductContext } from 'context/ProductsContext'
 
 
 // external function
-let lastDocument: any = null
+// let lastDocument: any = null
 
 const handleSnapshot = (snapShot: IFirebaseSnapShot) => {
-   lastDocument = snapShot.docs[snapShot.docs.length - 1] || null
+   // lastDocument = snapShot.docs[snapShot.docs.length - 1] || null
    const products = snapShot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data()
@@ -19,9 +19,9 @@ const handleSnapshot = (snapShot: IFirebaseSnapShot) => {
    return products as ProductWithId[]
 }
 
-let orderByProp: any
+// let orderByProp: any
 export const useProducts = (orden: IOrderBy) => {
-   orderByProp = orden
+   // orderByProp = orden
    const { firebaseDB } = useContext(FirebaseContext)
    const { products: productos ,setProducts: setProductosContext } = useContext(ProductContext)
 

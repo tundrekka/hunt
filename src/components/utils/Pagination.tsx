@@ -15,7 +15,7 @@ const StyledButton = styled.button`
    margin-top: 0.5rem;
 `
 
-export const PaginationData: React.FC = () => {
+export const PaginationData: React.FC<{lastDoc: any}> = ({lastDoc}) => {
    const { products, setProducts } = useContext(ProductContext)
    const [isDataLoading, setIsDataLoading] = useState(false)
    const [noMoreData, setNoMoreData] = useState(false)
@@ -25,7 +25,7 @@ export const PaginationData: React.FC = () => {
          setProducts,
          setIsDataLoading,
          setNoMoreData,
-         products[products.length - 1] || null,
+         lastDoc || null,
          'creado'
       )
    console.log(products[products.length - 1]);
