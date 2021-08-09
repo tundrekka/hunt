@@ -13,6 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
    const {userAuthenticated: user, checking} = useVerifyAuth()
    const [ products, setProducts ] = useState<ProductWithId[]>([])
    const [ noMoreData, setNoMoreData ] = useState(false)
+   const [ loadingSSR, setLoadingSSR ] = useState(false)
 
    return (
       <FirebaseContext.Provider
@@ -50,7 +51,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                   products,
                   setProducts,
                   noMoreData,
-                  setNoMoreData
+                  setNoMoreData,
+                  loadingSSR,
+                  setLoadingSSR,
                }}>
                   <Layout>
                      <Component {...pageProps} />
